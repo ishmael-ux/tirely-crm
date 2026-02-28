@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model appointments {
+  id            Int       @id @default(autoincrement())
+  customer_id   Int
+  vehicle_id    Int?
+  date          String
+  time          String
+  service       String
+  technician    String?
+  status        String?   @default("scheduled")
+  notes         String?
+  reminder_sent Int?      @default(0)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  customers     customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model customers {
+  id           Int            @id @default(autoincrement())
+  name         String
+  phone        String?
+  email        String?
+  notes        String?
+  created_at   DateTime?      @default(now()) @db.Timestamptz(6)
+  appointments appointments[]
+  estimates    estimates[]
+  invoices     invoices[]
+  reminders    reminders[]
+  vehicles     vehicles[]
+}
+
+model estimate_items {
+  id          Int       @id @default(autoincrement())
+  estimate_id Int
+  description String
+  quantity    Decimal?  @default(1) @db.Decimal
+  cost_price  Decimal?  @default(0) @db.Decimal
+  unit_price  Decimal?  @default(0) @db.Decimal
+  total       Decimal?  @default(0) @db.Decimal
+  profit      Decimal?  @default(0) @db.Decimal
+  estimates   estimates @relation(fields: [estimate_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model estimates {
+  id             Int              @id @default(autoincrement())
+  customer_id    Int
+  vehicle_id     Int?
+  status         String?          @default("draft")
+  subtotal       Decimal?         @default(0) @db.Decimal
+  tax            Decimal?         @default(0) @db.Decimal
+  total          Decimal?         @default(0) @db.Decimal
+  total_cost     Decimal?         @default(0) @db.Decimal
+  notes          String?
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  estimate_items estimate_items[]
+  customers      customers        @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model inventory {
+  id         Int       @id @default(autoincrement())
+  brand      String
+  model      String
+  size       String
+  type       String?   @default("All-Season")
+  quantity   Int?      @default(0)
+  min_stock  Int?      @default(4)
+  cost_price Decimal?  @default(0) @db.Decimal
+  sell_price Decimal?  @default(0) @db.Decimal
+  location   String?
+  notes      String?
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model invoice_items {
+  id          Int      @id @default(autoincrement())
+  invoice_id  Int
+  description String
+  quantity    Decimal? @default(1) @db.Decimal
+  cost_price  Decimal? @default(0) @db.Decimal
+  unit_price  Decimal? @default(0) @db.Decimal
+  total       Decimal? @default(0) @db.Decimal
+  profit      Decimal? @default(0) @db.Decimal
+  invoices    invoices @relation(fields: [invoice_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model invoices {
+  id             Int             @id @default(autoincrement())
+  invoice_number String          @unique
+  customer_id    Int
+  vehicle_id     Int?
+  appointment_id Int?
+  date           String
+  due_date       String?
+  status         String?         @default("pending")
+  subtotal       Decimal?        @default(0) @db.Decimal
+  tax            Decimal?        @default(0) @db.Decimal
+  total          Decimal?        @default(0) @db.Decimal
+  total_cost     Decimal?        @default(0) @db.Decimal
+  total_profit   Decimal?        @default(0) @db.Decimal
+  notes          String?
+  created_at     DateTime?       @default(now()) @db.Timestamptz(6)
+  invoice_items  invoice_items[]
+  customers      customers       @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model reminders {
+  id             Int       @id @default(autoincrement())
+  customer_id    Int
+  appointment_id Int?
+  phone          String
+  message        String
+  status         String?   @default("pending")
+  sent_at        DateTime? @db.Timestamptz(6)
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  customers      customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model vehicles {
+  id          Int       @id @default(autoincrement())
+  customer_id Int
+  year        Int?
+  make        String?
+  model       String?
+  trim        String?
+  color       String?
+  plate       String?
+  tire_size   String?
+  mileage     Int?
+  vin         String?
+  notes       String?
+  customers   customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
