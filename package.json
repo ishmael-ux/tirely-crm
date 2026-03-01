@@ -40,7 +40,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "prisma": "^7.4.2",
-    "shadcn": "^3.8.5",
     "typescript": "^5"
   }
 }
