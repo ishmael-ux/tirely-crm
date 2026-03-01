@@ -8,7 +8,16 @@
       "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' amplify update-app --app-id doqe33qxyvuhe --enable-branch-auto-deletion 2>&1\")",
       "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' amplify get-app --app-id doqe33qxyvuhe --query ''app.{platform:platform,framework:framework}'' 2>&1\")",
       "Bash(powershell.exe -Command \"Get-Content ''c:\\\\Users\\\\IshmaelSalandy\\\\OneDrive - Confidence Title\\\\Documents\\\\GitHub\\\\tirely-crm\\\\node_modules\\\\@clerk\\\\nextjs\\\\package.json'' | ConvertFrom-Json | Select-Object name,version,peerDependencies\")",
-      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' lambda list-functions --query ''Functions[*].{name:FunctionName,runtime:Runtime}'' 2>&1\")"
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' lambda list-functions --query ''Functions[*].{name:FunctionName,runtime:Runtime}'' 2>&1\")",
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' lambda list-functions --max-items 50 --query ''Functions[*].FunctionName'' 2>&1\")",
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' logs describe-log-groups --log-group-name-prefix ''/aws'' --query ''logGroups[*].logGroupName'' 2>&1\")",
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' cloudfront list-distributions --query ''DistributionList.Items[*].{id:Id,domain:DomainName,origins:Origins.Items[0].DomainName}'' 2>&1\")",
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' amplify update-branch --app-id doqe33qxyvuhe --branch-name master --enable-performance-mode 2>&1\")",
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' amplify get-branch --app-id doqe33qxyvuhe --branch-name master 2>&1\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:\\\\Temp\\\\check-prod.ps1\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:\\\\Temp\\\\get-error.ps1\")",
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\Amazon\\\\AWSCLIV2\\\\aws.exe'' amplify get-job --app-id doqe33qxyvuhe --branch-name master --job-id 8 --query ''job.steps[0].logUrl'' 2>&1\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:\\\\Temp\\\\fetch-log8.ps1\")"
     ]
   }
 }
