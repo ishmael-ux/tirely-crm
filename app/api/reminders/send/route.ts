@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { checkApiKey } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 
 export async function POST(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const { customer_id, appointment_id, phone, message } = await request.json();

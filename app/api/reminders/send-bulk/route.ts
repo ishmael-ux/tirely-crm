@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { checkApiKey } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 
 interface BulkAppt {
   customer_id: number;
@@ -10,7 +10,7 @@ interface BulkAppt {
 }
 
 export async function POST(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const { appointments } = await request.json();

@@ -2,11 +2,10 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import Topbar from '@/components/layout/Topbar';
 import StatusBadge from '@/components/shared/StatusBadge';
 import CustomerAvatar from '@/components/shared/CustomerAvatar';
-import { apiGet, getApiKey } from '@/lib/api';
+import { apiGet } from '@/lib/api';
 import { fmtCurrency, fmtDate } from '@/lib/utils';
 import { Calendar, Users, DollarSign, AlertTriangle, Package, TrendingUp } from 'lucide-react';
 
@@ -43,12 +42,6 @@ interface Invoice {
 
 export default function DashboardPage() {
   const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !getApiKey() && process.env.NODE_ENV === 'production') {
-      router.push('/login');
-    }
-  }, [router]);
 
   const { data: stats } = useQuery<Stats>({
     queryKey: ['stats'],

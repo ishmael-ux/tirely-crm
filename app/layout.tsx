@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, DM_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import QueryProvider from "@/components/providers/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -34,15 +35,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${dmSans.variable} ${dmMono.variable} ${instrumentSerif.variable} antialiased`}
-      >
-        <QueryProvider>
-          {children}
-          <Toaster richColors position="bottom-right" />
-        </QueryProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${dmSans.variable} ${dmMono.variable} ${instrumentSerif.variable} antialiased`}
+        >
+          <QueryProvider>
+            {children}
+            <Toaster richColors position="bottom-right" />
+          </QueryProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

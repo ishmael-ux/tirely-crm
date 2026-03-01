@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@/lib/generated/prisma/client';
-import { checkApiKey } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 import { addDays } from '@/lib/utils';
 
 export async function GET(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const { searchParams } = new URL(request.url);
@@ -53,7 +53,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const { customer_id, vehicle_id, date, time, service, technician, notes } =

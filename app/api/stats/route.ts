@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@/lib/generated/prisma/client';
-import { checkApiKey } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 import { today } from '@/lib/utils';
 
 export async function GET(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const t = today();

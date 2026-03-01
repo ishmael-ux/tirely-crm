@@ -1,27 +1,10 @@
 'use client';
 
-const KEY_STORAGE = 'treadcrm_key';
-
-export function getApiKey(): string {
-  if (typeof window === 'undefined') return '';
-  return sessionStorage.getItem(KEY_STORAGE) ?? '';
-}
-
-export function setApiKey(key: string) {
-  sessionStorage.setItem(KEY_STORAGE, key);
-}
-
-export function clearApiKey() {
-  sessionStorage.removeItem(KEY_STORAGE);
-}
-
-export async function apiFetch(url: string, opts: RequestInit = {}): Promise<Response> {
-  const key = getApiKey();
+async function apiFetch(url: string, opts: RequestInit = {}): Promise<Response> {
   return fetch(url, {
     ...opts,
     headers: {
       'Content-Type': 'application/json',
-      ...(key ? { 'X-API-Key': key } : {}),
       ...opts.headers,
     },
   });

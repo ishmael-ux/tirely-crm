@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { UserButton } from '@clerk/nextjs';
 import { Search, Plus } from 'lucide-react';
 
 const PAGE_TITLES: Record<string, string> = {
@@ -59,6 +60,8 @@ export default function Topbar({ onSearch, onAdd, addLabel = 'Add' }: TopbarProp
           {addLabel}
         </button>
       )}
+
+      <UserButton afterSignOutUrl="/sign-in" />
     </header>
   );
 }

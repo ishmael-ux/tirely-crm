@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { checkApiKey } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const { id } = await params;
@@ -32,7 +32,7 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const { id } = await params;

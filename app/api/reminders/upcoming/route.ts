@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@/lib/generated/prisma/client';
-import { checkApiKey } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 import { addDays, today } from '@/lib/utils';
 
 export async function GET(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const tomorrow = addDays(today(), 1);

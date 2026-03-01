@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { checkApiKey } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 
 export async function GET(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const items = await prisma.inventory.findMany({
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const authErr = checkApiKey(request);
+  const authErr = await requireAuth();
   if (authErr) return authErr;
   try {
     const { brand, model, size, type, quantity, min_stock, cost_price, sell_price, location, notes } =
